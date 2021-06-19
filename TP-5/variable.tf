@@ -9,6 +9,6 @@ variable "instance_type" {
 }
 
 variable "ssh_key" {
-  type = string
+  type    = string
   default = "devops-frazer"
 }

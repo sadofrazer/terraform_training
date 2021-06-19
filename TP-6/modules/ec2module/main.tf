@@ -1,9 +1,3 @@
-provider "aws" {
-  region     = "us-east-1"
-  access_key = "ACCESS KEY"
-  secret_key = "SECRET KEY"
-}
-
 resource "aws_instance" "frazer-ec2" {
   ami             = data.aws_ami.my_ami.id
   instance_type   = var.instance_type
@@ -27,7 +21,7 @@ resource "aws_instance" "frazer-ec2" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("./${var.ssh_key}.pem")
+      private_key = file("C:/Files/Docs Perso/DevOps/AWS/.aws/${var.ssh_key}.pem")
       host        = self.public_ip
     }
 

@@ -1,13 +1,13 @@
 provider "aws" {
-  region     = "us-east-1"
+  region                  = "us-east-1"
   shared_credentials_file = "C:/Files/Docs Perso/DevOps/AWS/.aws/credentials"
 }
 
 terraform {
   backend "s3" {
-    bucket = "terraform-backend-frazer"
-    key    = "frazer.tfstate"
-    region = "us-east-1"
+    bucket                  = "terraform-backend-frazer"
+    key                     = "frazer.tfstate"
+    region                  = "us-east-1"
     shared_credentials_file = "C:/Files/Docs Perso/DevOps/AWS/.aws/credentials"
   }
 }
@@ -15,7 +15,7 @@ terraform {
 resource "aws_instance" "frazer-ec2" {
   ami             = data.aws_ami.my_ami.id
   instance_type   = var.instance_type
-  key_name        = "${var.ssh_key}"
+  key_name        = var.ssh_key
   security_groups = ["${aws_security_group.my_sg.name}"]
   tags = {
     Name = "${var.author}-ec2"
@@ -33,14 +33,14 @@ resource "aws_instance" "frazer-ec2" {
     ]
 
     connection {
-      type = "ssh"
-      user = "ec2-user"
+      type        = "ssh"
+      user        = "ec2-user"
       private_key = file("./${var.ssh_key}.pem")
-      host = self.public_ip
+      host        = self.public_ip
     }
 
   }
-  
+
 }
 
 resource "aws_security_group" "my_sg" {
@@ -95,7 +95,7 @@ resource "aws_eip" "my_eip" {
 
   provisioner "local-exec" {
     command = " echo PUBLIC IP: ${self.public_ip} ; ID: ${aws_instance.frazer-ec2.id} ; AZ: ${aws_instance.frazer-ec2.availability_zone}; >> infos_ec2.txt"
-   }
+  }
 
 }
 
